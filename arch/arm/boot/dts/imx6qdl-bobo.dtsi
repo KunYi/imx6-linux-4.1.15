@@ -111,8 +111,19 @@
 };
 
 &cpu0 {
-	arm-supply = <&sw1a_reg>;
-	soc-supply = <&sw1a_reg>;
+	arm-supply = <&reg_arm>;
+	soc-supply = <&reg_soc>;
+	pu-supply = <&reg_pu>;
+};
+
+&gpc {
+	fsl,ldo-bypass = <0>; /* to disable ldo pass mode, u-boot will check it */
+	fsl,wdog-reset = <1>;
+	pu-supply = <&reg_pu>;
+};
+
+&vpu {
+	pu-supply = <&reg_pu>;
 };
 
 &gpmi {
@@ -400,12 +411,6 @@
 	};
 };
 
-
-&gpc {
-	/* use ldo-bypass, u-boot will check it and configure */
-	fsl,ldo-bypass = <1>;
-	fsl,wdog-reset = <2>;
-};
 
 &lcd {
 	pinctrl-names = "default";

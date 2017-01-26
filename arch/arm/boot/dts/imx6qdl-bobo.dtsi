@@ -39,7 +39,7 @@
 		linux,cma {
 			compatible = "shared-dma-pool";
 			reusable;
-			size = <0x6000000>;
+			size = <0x10000000>;
 			linux,cma-default;
 		};
 	};
@@ -71,29 +71,24 @@
 	mxcfb1: fb@0 {
 		compatible = "fsl,mxc_sdc_fb";
 		disp_dev = "lcd";
+		mode_str = "CTP-WVGA";
 		interface_pix_fmt = "RGB666";
 		default_bpp = <16>;
 		int_clk = <0>;
 		late_init = <0>;
-		status = "okay";
+		status = "disabled";
 	};
-
 
 	lcd: lcd@0 {
 		compatible = "fsl,lcd";
 		ipu_id = <0>;
 		disp_id = <0>;
-		mode_str = "SEIKO-WVGA";
 		default_ifmt = "RGB666";
 		pinctrl-names = "default";
-		pinctrl-0 = <&pinctrl_disp0>;
+		pinctrl-0 = <&pinctrl_disp>;
 		status = "okay";
 	};
-	/*
-	contrast {
-		compatible = "pwm-backlight";
-	};
-	*/
+
 	backlight {
 		compatible = "pwm-backlight";
 		pwms = <&pwm4 0 100000>; 
@@ -175,6 +170,8 @@
 			swbst_reg: swbst { /* GPS, LCD, USB */
 				regulator-min-microvolt = <5000000>;
 				regulator-max-microvolt = <5150000>;
+				regulator-boot-on;
+				regulator-always-on;
 			};
 
 			snvs_reg: vsnvs {
@@ -207,13 +204,11 @@
 			vgen4_reg: vgen4 { /* for WIFI */
 				regulator-min-microvolt = <1800000>;
 				regulator-max-microvolt = <1800000>;
-				regulator-always-on;
 			};
 
 			vgen5_reg: vgen5 {
 				regulator-min-microvolt = <1800000>;
 				regulator-max-microvolt = <2800000>;
-				regulator-always-on;
 			};
 
 			vgen6_reg: vgen6 {
@@ -260,7 +255,7 @@
 		};
 
 		/* for LCD */
-		pinctrl_disp0: disp0-grp {
+		pinctrl_disp: disp0-grp {
 			fsl,pins = <
 				MX6QDL_PAD_DI0_DISP_CLK__IPU1_DI0_DISP_CLK 0x10
 				MX6QDL_PAD_DI0_PIN15__IPU1_DI0_PIN15       0x10
@@ -411,11 +406,6 @@
 	};
 };
 
-
-&lcd {
-	pinctrl-names = "default";
-	status = "okay";
-};
 
 /* backlight */
 &pwm4 {

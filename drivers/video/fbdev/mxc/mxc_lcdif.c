@@ -50,8 +50,8 @@ static struct fb_videomode lcdif_modedb[] = {
 	0,},
 	{
 	/* 800x480 @ 60 Hz , pixel clk @ 33MHz */
-	"CTP-WVGA", 60, 800, 480, 30000, 210, 46, 23, 22, 40, 10,
-	FB_SYNC_CLK_LAT_FALL | FB_SYNC_DATA_INVERT | FB_SYNC_EXT,
+	"CTP-WVGA", 60, 800, 480, 30000, 46, 208, 20, 23, 2, 2,
+	FB_SYNC_DATA_INVERT | FB_SYNC_EXT,
 	FB_VMODE_NONINTERLACED,
 	0,},
 };

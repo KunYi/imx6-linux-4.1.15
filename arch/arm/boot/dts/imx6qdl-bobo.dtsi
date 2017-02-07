@@ -91,7 +91,10 @@
 
 	backlight {
 		compatible = "pwm-backlight";
-		pwms = <&pwm4 0 100000>; 
+		pwms = <&pwm4 0 300000>;
+		brightness-levels = <10 24 48 70 102 128 198 255>;
+		default-brightness-level = <7>;
+	#if 0
 		brightness-levels = <
 			 0  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 
 			16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 
@@ -101,6 +104,7 @@
 			80 81 82 83 84 85 86 87 88 89 90 91 92 93 94 95
 			96 97 98 99 100 >;
 		default-brightness-level = <20>;
+	#endif
 		status = "okay";
 	};
 };
@@ -366,7 +370,7 @@
 
 		pinctrl_pwm4: pwm4grp {
 			fsl,pins = <
-				MX6QDL_PAD_SD4_DAT2__PWM4_OUT		0x80000000
+				MX6QDL_PAD_SD4_DAT2__PWM4_OUT		0x1b0b1
 			>;
 		};
 
@@ -502,5 +506,9 @@
 };
 
 &wdog2 {
+	status = "disabled";
+};
+
+&epdc {
 	status = "disabled";
 };

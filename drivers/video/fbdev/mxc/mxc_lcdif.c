@@ -49,10 +49,35 @@ static struct fb_videomode lcdif_modedb[] = {
 	FB_VMODE_NONINTERLACED,
 	0,},
 	{
-	/* 800x480 @ 60 Hz , pixel clk @ 33MHz */
-	"CTP-WVGA", 60, 800, 480, 30000, 46, 208, 20, 23, 2, 2,
-	FB_SYNC_DATA_INVERT | FB_SYNC_EXT,
+	/* 800x480 @ 60 Hz , pixel clk @ 39.6MHz */
+	"T@CTP-WVGA",	/* Name */
+	60,		/* Frame rate */
+	800,		/* Horizontal Active*/
+	480,		/* Vertical Active */
+	25245,		/* pixel clock 1/(N) */
+	46,		/* HBP */
+	234,		/* HFP */
+	23,		/* VBP */
+	85,		/* VFP */
+	24,		/* HSPW */
+	10,		/* VSPW */
+	FB_SYNC_DATA_INVERT | FB_SYNC_CLK_LAT_FALL,
 	FB_VMODE_NONINTERLACED,
+	0,},
+	{
+	/* 800x480 @ 60 Hz , pixel clk @ 33MHz */
+	"CTP-WVGA",	/* Name */
+	60,		/* Frame rate */
+	800,		/* Hact */
+	480,		/* Vact */
+	30000,		/* Pixel clock */
+	46,		/* HBP */
+	208,		/* HFP */
+	23,		/* VBP */
+	20,		/* VFP */
+	2,		/* HSPW */
+	2,		/* VSPW */
+        FB_SYNC_DATA_INVERT | FB_SYNC_CLK_LAT_FALL,
 	0,},
 };
 static int lcdif_modedb_sz = ARRAY_SIZE(lcdif_modedb);

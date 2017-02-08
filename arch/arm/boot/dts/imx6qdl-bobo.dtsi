@@ -233,6 +233,7 @@
 		pinctrl_hog: hoggrp {
 			fsl,pins = <
 				MX6QDL_PAD_GPIO_0__CCM_CLKO1		0x130b0
+				MX6QDL_PAD_EIM_A20__GPIO2_IO18          0x80000000
 			>;
 		};
 
@@ -457,13 +458,13 @@
 	status = "okay";
 };
 
-/*
+
 &usbh1 {
-	vbus-supply = <&reg_usb_h1_vbus>;
+	/* vbus-supply = <&reg_usb_h1_vbus>; */
 	status = "okay";
 };
 
-
+/*
 &usbotg {
 	vbus-supply = <&reg_usb_otg_vbus>;
 	pinctrl-names = "default";

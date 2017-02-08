@@ -1053,8 +1053,20 @@ static const struct input_device_id mousedev_ids[] = {
 
 MODULE_DEVICE_TABLE(input, mousedev_ids);
 
+static bool mousedev_match(struct input_handler *handler, struct input_dev *dev)
+{
+	/* Avoid EETI USB touchscreens */
+	if ((BUS_USB == dev->id.bustype) && (0x0eef == dev->id.vendor))
+		return false;
+	/* Avoid EETI virtual devices */
+	if ((BUS_VIRTUAL == dev->id.bustype) && (0x0eef == dev->id.vendor))
+		return false;
+	return true;
+}
+
 static struct input_handler mousedev_handler = {
 	.event		= mousedev_event,
+	.match		= mousedev_match, /* Added By EETI */
 	.connect	= mousedev_connect,
 	.disconnect	= mousedev_disconnect,
 	.legacy_minors	= true,

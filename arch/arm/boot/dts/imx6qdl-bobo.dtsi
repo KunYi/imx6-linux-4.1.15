@@ -86,7 +86,7 @@
 		default_ifmt = "RGB666";
 		pinctrl-names = "default";
 		pinctrl-0 = <&pinctrl_disp>;
-		status = "okay";
+		status = "disabled";
 	};
 
 	backlight {

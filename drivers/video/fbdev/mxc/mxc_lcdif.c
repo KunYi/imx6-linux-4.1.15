@@ -70,7 +70,7 @@ static struct fb_videomode lcdif_modedb[] = {
 	60,		/* Frame rate */
 	800,		/* Hact */
 	480,		/* Vact */
-	30000,		/* Pixel clock */
+	33330,		/* Pixel clock */
 	46,		/* HBP */
 	208,		/* HFP */
 	23,		/* VBP */

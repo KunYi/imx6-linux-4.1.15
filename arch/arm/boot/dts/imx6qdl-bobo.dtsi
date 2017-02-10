@@ -112,13 +112,21 @@
 
 	};
 
-/*
+
 	gpio-keys {
 		compatible = "gpio-keys";
 		pinctrl-names = "default";
 		pinctrl-0 = <&pinctrl_gpio_keys>;
+		/* PWR_KEY_SENSE */
+		power {
+			label = "Power Button";
+			gpios = <&gpio2 21 GPIO_ACTIVE_LOW>;/* MX6QDL_PAD_EIM_A17__GPIO2_IO21 */
+			gpio-key,wakeup;
+			linux,code = <KEY_POWER>;
+			debounce-interval = <1000>; /* long press 1000 millisecond */
+		};
 	};
-*/
+
 	mxcfb1: fb@0 {
 		compatible = "fsl,mxc_sdc_fb";
 		disp_dev = "lcd";
@@ -161,6 +169,12 @@
 			 90 91 92 93 94 95 96 97 98 99 
 			 100 >;
 		default-brightness-level = <34>;
+		status = "okay";
+	};
+
+	buzzer {
+		compatible = "pwm-beeper";
+		pwms = <&pwm3 0 10000>;
 		status = "okay";
 	};
 };
@@ -423,6 +437,13 @@
 			>;
 		};
 
+		/* for buzzer */
+		pinctrl_pwm3: pwm3grp {
+			fsl,pins = <
+				MX6QDL_PAD_SD4_DAT1__PWM3_OUT              0x1b0b1	/* AUDIO_PWM */
+			>;
+		};
+
 		pinctrl_pwm4: pwm4grp {
 			fsl,pins = <
 				MX6QDL_PAD_SD4_DAT2__PWM4_OUT		0x1b0b1
@@ -465,6 +486,12 @@
 	};
 };
 
+/* buzzer */
+&pwm3 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&pinctrl_pwm3>;
+	status = "okay";
+};
 
 /* backlight */
 &pwm4 {

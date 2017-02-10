@@ -49,14 +49,65 @@
 		#address-cells = <1>;
 		#size-cells = <0>;
 
-		reg_sd1_vmmc: sd1_vmmd {
+		reg_3v3: regulator@0 {
 			compatible = "regulator-fixed";
+			reg = <0>;
+			regulator-name = "pwr3v3";
+			regulator-min-microvolt = <3300000>;
+			regulator-max-microvolt = <3300000>;
+			vin-supply = <&sw2_reg>;
+			regulator-always-on;
+		};
+
+		reg_5v: regualtor@1 {
+			compatible = "regulator-fixed";
+			reg = <1>;
+			regulator-name = "pwr5v";
+			regulator-min-microvolt = <5000000>;
+			regulator-max-microvolt = <5000000>;
+			vin-supply = <&swbst_reg>;
+			regulator-always-on;
+		};
+
+		reg_1v8: regulator@2 {
+			compatible = "regulator-fixed";
+			reg = <2>;
+			regulator-name = "pwr1v8";
+			regulator-min-microvolt = <1800000>;
+			regulator-max-microvolt = <1800000>;
+			vin-supply = <&vgen4_reg>;
+			regulator-always-on;
+		};
+
+		reg_sd1_vmmc: regulator@3 {
+			compatible = "regulator-fixed";
+			reg = <3>;
 			regulator-name = "SD1_PWR";
 			regulator-min-microvolt = <3300000>;
 			regulator-max-microvolt = <3300000>;
 			gpio = <&gpio2 12 GPIO_ACTIVE_HIGH>;
 			enable-active-high;
+			vin-supply = <&reg_3v3>;
 		};
+
+		reg_usb_otg_vbus: usbotg_vbus {
+			compatible = "regulator-fixed";
+			reg = <4>;
+			regulator-name = "usb_otg_vbus";
+			regulator-min-microvolt = <5000000>;
+			regulator-max-microvolt = <5000000>;
+			vin-supply = <&reg_5v>;
+		};
+
+		reg_usb_h1_vbus: usbh1_vbus {
+			compatible = "regulator-fixed";
+			reg = <5>;
+			regulator-name = "usb_h1_vbus";
+			regulator-min-microvolt = <5000000>;
+			regulator-max-microvolt = <5000000>;
+			vin-supply = <&reg_5v>;
+		};
+
 
 
 	};
@@ -154,7 +205,6 @@
 				regulator-min-microvolt = <800000>;
 				regulator-max-microvolt = <3300000>;
 				regulator-boot-on;
-				regulator-always-on;
 			};
 
 			sw3a_reg: sw3a { /* DDR3 */
@@ -175,7 +225,6 @@
 				regulator-min-microvolt = <5000000>;
 				regulator-max-microvolt = <5150000>;
 				regulator-boot-on;
-				regulator-always-on;
 			};
 
 			snvs_reg: vsnvs {
@@ -193,32 +242,37 @@
 			vgen1_reg: vgen1 {
 				regulator-min-microvolt = <800000>;
 				regulator-max-microvolt = <1550000>;
+				regulator-boot-on;
 			};
 
 			vgen2_reg: vgen2 {
 				regulator-min-microvolt = <800000>;
 				regulator-max-microvolt = <1550000>;
+				regulator-boot-on;
 			};
 
 			vgen3_reg: vgen3 {
 				regulator-min-microvolt = <1800000>;
 				regulator-max-microvolt = <3300000>;
+				regulator-boot-on;
 			};
 
 			vgen4_reg: vgen4 { /* for WIFI */
 				regulator-min-microvolt = <1800000>;
 				regulator-max-microvolt = <1800000>;
+				regulator-boot-on;
 			};
 
 			vgen5_reg: vgen5 {
 				regulator-min-microvolt = <1800000>;
 				regulator-max-microvolt = <2800000>;
+				regulator-boot-on;
 			};
 
 			vgen6_reg: vgen6 {
 				regulator-min-microvolt = <1800000>;
 				regulator-max-microvolt = <3300000>;
-				regulator-always-on;
+				regulator-boot-on;
 			};
 		};
 	};
@@ -350,8 +404,7 @@
 
 		pinctrl_usbotg: usbotggrp {
 			fsl,pins = <
-				MX6QDL_PAD_ENET_RX_ER__USB_OTG_ID	0x17059
-				MX6QDL_PAD_EIM_D21__USB_OTG_OC		0x17059
+				MX6QDL_PAD_GPIO_1__USB_OTG_ID	0x17059
 			>;
 		};
 
@@ -460,19 +513,20 @@
 
 
 &usbh1 {
-	/* vbus-supply = <&reg_usb_h1_vbus>; */
+	vbus-supply = <&reg_usb_h1_vbus>;
 	status = "okay";
 };
 
-/*
 &usbotg {
 	vbus-supply = <&reg_usb_otg_vbus>;
 	pinctrl-names = "default";
 	pinctrl-0 = <&pinctrl_usbotg>;
 	disable-over-current;
+	srp-disable;
+	hnp-disable;
+	adp-disable;
 	status = "okay";
 };
-*/
 
 &usdhc1 {
 	pintctrl-names = "default";
@@ -507,7 +561,8 @@
 };
 
 &wdog2 {
-	status = "disabled";
+	status = "okay";
+	fsl,wdog_b;
 };
 
 &epdc {

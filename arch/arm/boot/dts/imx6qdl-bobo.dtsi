@@ -168,13 +168,8 @@
 
 &gpc {
 	fsl,ldo-bypass = <0>; /* to disable ldo pass mode, u-boot will check it */
-	fsl,wdog-reset = <1>;
-	pu-supply = <&reg_pu>;
 };
 
-&vpu {
-	pu-supply = <&reg_pu>;
-};
 
 &gpmi {
 	pinctrl-names = "default";
@@ -555,15 +550,6 @@
 	status = "okay";
 };
 */
-
-&wdog1 {
-	status = "disabled";
-};
-
-&wdog2 {
-	status = "okay";
-	fsl,wdog_b;
-};
 
 &epdc {
 	status = "disabled";
